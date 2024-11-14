@@ -40,7 +40,7 @@ public class AccountController(
             return BadRequest("Ez a felhasználó már regisztrálva van.");
         }
 
-        var createUser = await userManager.CreateAsync(newUser, register.Password);
+        
 
         var checkAdmin = await roleManager.FindByNameAsync("Admin");
 
@@ -50,6 +50,8 @@ public class AccountController(
             await userManager.AddToRoleAsync(newUser, "Admin");
             return Ok("Admin felhasználó létrehozva.");
         }
+
+        var createUser = await userManager.CreateAsync(newUser, register.Password);
 
         var checkUser = await roleManager.FindByNameAsync("User");
 
@@ -91,14 +93,7 @@ public class AccountController(
 
         var response = new
         {
-            token,
-            user = new
-            {
-                id = user.Id,
-                username = user.UserName,
-                email = user.Email,
-                role = userRole.First()
-            }
+            token
         };
 
         return Ok(response);

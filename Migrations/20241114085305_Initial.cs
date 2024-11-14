@@ -59,23 +59,6 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(type: "longtext", nullable: false),
-                    ReleasedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Genre = table.Column<string>(type: "longtext", nullable: false),
-                    Length = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -187,15 +170,58 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Watchlists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Watchlists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Watchlists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Title = table.Column<string>(type: "longtext", nullable: false),
+                    ReleasedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Genre = table.Column<string>(type: "longtext", nullable: false),
+                    Length = table.Column<int>(type: "int", nullable: false),
+                    WatchlistId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_Watchlists_WatchlistId",
+                        column: x => x.WatchlistId,
+                        principalTable: "Watchlists",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Ratings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    RatingNumber = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
-                    RatingNumber = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "longtext", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: true)
+                    Comment = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,9 +236,15 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         name: "FK_Ratings_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "Id", "Genre", "Length", "ReleasedDate", "Title", "WatchlistId" },
+                values: new object[] { 1, "Action", 137, new DateTime(1991, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Terminator 2", null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -252,6 +284,11 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Movies_WatchlistId",
+                table: "Movies",
+                column: "WatchlistId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ratings_MovieId",
                 table: "Ratings",
                 column: "MovieId");
@@ -259,6 +296,11 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_UserId",
                 table: "Ratings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Watchlists_UserId",
+                table: "Watchlists",
                 column: "UserId");
         }
 
@@ -287,10 +329,13 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "Watchlists");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

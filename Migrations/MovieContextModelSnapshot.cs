@@ -19,7 +19,76 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReleasedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("WatchlistId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WatchlistId");
+
+                    b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Genre = "Action",
+                            Length = 137,
+                            ReleasedDate = new DateTime(1991, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Terminator 2"
+                        });
+                });
+
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Ratings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RatingNumber")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -91,45 +160,10 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", b =>
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Watchlist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReleasedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RatingNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -138,11 +172,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Watchlists");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -273,13 +305,35 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Rating", b =>
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", b =>
                 {
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", null)
-                        .WithMany("Ratings")
-                        .HasForeignKey("MovieId");
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.Watchlist", null)
+                        .WithMany("Movies")
+                        .HasForeignKey("WatchlistId");
+                });
 
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", "User")
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Ratings", b =>
+                {
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", "Movie")
+                        .WithMany("Ratings")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Watchlist", b =>
+                {
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -299,7 +353,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", null)
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -308,7 +362,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", null)
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,7 +377,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", null)
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -332,7 +386,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.ApplicationUser", null)
+                    b.HasOne("Bibliotheca_Motus_Imaginibus_API.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -342,6 +396,11 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
             modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Movie", b =>
                 {
                     b.Navigation("Ratings");
+                });
+
+            modelBuilder.Entity("Bibliotheca_Motus_Imaginibus_API.Entities.Watchlist", b =>
+                {
+                    b.Navigation("Movies");
                 });
 #pragma warning restore 612, 618
         }
