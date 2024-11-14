@@ -40,7 +40,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Context
 
             // Seed adat a Movie entitáshoz
             modelBuilder.Entity<Movie>().HasData(
-                new Movie { Id = 1, Title = "Terminator 2", ReleasedDate = new DateTime(1991, 8, 16), Genre = "Action", Length = 137 },
+                new Movie { Id = 1, Title = "Terminator 2", ReleasedDate = new DateTime(1991, 8, 16), Genre = "Action", Length = 137, Poster = File.ReadAllBytes("./sources/terminator2.jpg")},
                 new Movie { Id = 2, Title = "Inception", ReleasedDate = new DateTime(2010, 7, 16), Genre = "Sci-Fi", Length = 148 },
                 new Movie { Id = 3, Title = "The Matrix", ReleasedDate = new DateTime(1999, 3, 31), Genre = "Sci-Fi", Length = 136 },
                 new Movie { Id = 4, Title = "The Godfather", ReleasedDate = new DateTime(1972, 3, 24), Genre = "Crime", Length = 175 }

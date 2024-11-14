@@ -11,6 +11,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Entities
         public int Length { get; set; }
 
         [JsonIgnore]
+        public byte[]? Poster { get; set; }
+
+        [JsonIgnore]
         public ICollection<Ratings>? Ratings { get; set; }
     }
 }

@@ -88,5 +88,69 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
             return Ok("Sikeresen törölve: " + movie.Title);
         }
+
+
+        [HttpGet("{id}/kep")]
+        public async Task<IActionResult> GetMoviePoster(int id)
+        {
+            var movie =  await _context.Movies.FindAsync(id);
+
+            if(movie == null)
+            {
+                return NotFound();
+            }
+
+            if (movie.Poster == null)
+            {
+                return NotFound();
+
+            }
+
+            var fileName = $"{movie.Title}.jpg";
+
+
+            return File(movie.Poster, "image/jpg", fileName);
+        }
+
+        [HttpPut("{id}/kep")]
+        public async  Task<IActionResult> PutMoviePoster(int id, [FromForm] MoviePosterUpdateModel poster)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await poster.file.CopyToAsync(memoryStream);
+                movie.Poster = memoryStream.ToArray();
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok("Poster sucesfully updated!");
+            
+        }
+
+        public class MoviePosterUpdateModel
+        {
+            public required IFormFile file { get; set; }
+        }
+
+        [HttpDelete("{id}/kep")]
+        public async Task<IActionResult> DeleteMoviePoster(int id)
+        {
+            var movie = await _context.Movies.FindAsync(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.Poster = null;
+            
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }
