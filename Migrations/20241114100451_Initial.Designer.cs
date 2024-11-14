@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20241114085305_Initial")]
+    [Migration("20241114100451_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -59,6 +59,30 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             Length = 137,
                             ReleasedDate = new DateTime(1991, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Terminator 2"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Genre = "Sci-Fi",
+                            Length = 148,
+                            ReleasedDate = new DateTime(2010, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Inception"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Genre = "Sci-Fi",
+                            Length = 136,
+                            ReleasedDate = new DateTime(1999, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "The Matrix"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Genre = "Crime",
+                            Length = 175,
+                            ReleasedDate = new DateTime(1972, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "The Godfather"
                         });
                 });
 
@@ -75,8 +99,8 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("RatingNumber")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<decimal>("RatingNumber")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

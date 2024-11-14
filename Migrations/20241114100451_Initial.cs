@@ -4,6 +4,8 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 {
     /// <inheritdoc />
@@ -218,7 +220,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    RatingNumber = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    RatingNumber = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     Comment = table.Column<string>(type: "longtext", nullable: false)
@@ -244,7 +246,13 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
             migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "Genre", "Length", "ReleasedDate", "Title", "WatchlistId" },
-                values: new object[] { 1, "Action", 137, new DateTime(1991, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Terminator 2", null });
+                values: new object[,]
+                {
+                    { 1, "Action", 137, new DateTime(1991, 8, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Terminator 2", null },
+                    { 2, "Sci-Fi", 148, new DateTime(2010, 7, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Inception", null },
+                    { 3, "Sci-Fi", 136, new DateTime(1999, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Matrix", null },
+                    { 4, "Crime", 175, new DateTime(1972, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "The Godfather", null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
