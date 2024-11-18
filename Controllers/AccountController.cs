@@ -24,15 +24,17 @@ public class AccountController(
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDTO register)
     {
+        // Új felhasználó objektum létrehozása
         var newUser = new User()
         {
             FirstName = register.FirstName,
             LastName = register.LastName,
             Email = register.Email,
-            PasswordHash = register.Password,
+
             UserName = register.Email.Split('@')[0]
         };
 
+        // Ellenőrzés, hogy a felhasználó már létezik-e
         var user = await userManager.FindByEmailAsync(newUser.Email);
 
         if (user is not null)
@@ -40,29 +42,35 @@ public class AccountController(
             return BadRequest("Ez a felhasználó már regisztrálva van.");
         }
 
-        
-
-        var checkAdmin = await roleManager.FindByNameAsync("Admin");
-
-        if (checkAdmin is null)
+        // Felhasználó létrehozása az UserManager segítségével (ez kezeli a jelszót is)
+        var createUserResult = await userManager.CreateAsync(newUser, register.Password);
+        if (!createUserResult.Succeeded)
         {
-            await roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
-            await userManager.AddToRoleAsync(newUser, "Admin");
-            return Ok("Admin felhasználó létrehozva.");
+            return BadRequest("Felhasználó létrehozása sikertelen: " +
+                string.Join(", ", createUserResult.Errors.Select(e => e.Description)));
         }
 
-        var createUser = await userManager.CreateAsync(newUser, register.Password);
-
-        var checkUser = await roleManager.FindByNameAsync("User");
-
-        if (checkUser is null)
+        // Alapértelmezett szerepkör ellenőrzése és létrehozása, ha szükséges
+        var checkUserRole = await roleManager.FindByNameAsync("User");
+        if (checkUserRole is null)
         {
-            await roleManager.CreateAsync(new IdentityRole() { Name = "User" });
+            var createRoleResult = await roleManager.CreateAsync(new IdentityRole("User"));
+            if (!createRoleResult.Succeeded)
+            {
+                return BadRequest("Szerepkör létrehozása sikertelen: " +
+                    string.Join(", ", createRoleResult.Errors.Select(e => e.Description)));
+            }
         }
 
-        await userManager.AddToRoleAsync(newUser, "User");
+        // Felhasználó hozzáadása a "User" szerepkörhöz
+        var addToRoleResult = await userManager.AddToRoleAsync(newUser, "User");
+        if (!addToRoleResult.Succeeded)
+        {
+            return BadRequest("Szerepkör hozzárendelése sikertelen: " +
+                string.Join(", ", addToRoleResult.Errors.Select(e => e.Description)));
+        }
 
-        return Ok("Felhasználó létrehozva.");
+        return Ok("Felhasználó sikeresen létrehozva és a 'User' szerepkörhöz rendelve.");
     }
 
     [HttpPost("login")]
@@ -106,14 +114,14 @@ public class AccountController(
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         var userClaims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, id),
-            new Claim(ClaimTypes.Name, name),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, role)
-        };
+        new Claim(ClaimTypes.NameIdentifier, id),
+        new Claim(ClaimTypes.Name, name),
+        new Claim(ClaimTypes.Email, email),
+        new Claim(ClaimTypes.Role, role)
+    };
         var token = new JwtSecurityToken(
-            issuer: config["Jwt:Issuer"],
-            audience: config["Jwt:Audience"],
+            issuer: config["Jwt:Issuer"],           // Az alkalmazás kiadója (Issuer)
+            audience: config["Jwt:Audience"],       // A token címzettje (Audience)
             claims: userClaims,
             expires: DateTime.Now.AddDays(1),
             signingCredentials: credentials
