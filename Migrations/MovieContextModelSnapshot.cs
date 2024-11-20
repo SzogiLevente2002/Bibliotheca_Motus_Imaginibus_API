@@ -257,7 +257,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d0f020ad-e323-4944-afe5-dd57a0c39c10",
+                            ConcurrencyStamp = "faec2f17-6414-410f-8f79-407e8490b21e",
                             Email = "user1@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -265,9 +265,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEn8PPWcuQh1UXp2e49w/B0C8nSPLdBH9e3eUCdE58w+8+H3Ysm4KAq2TxKgDTPCIg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFNgm0JGsBvY9o3PO3OvQUdaf2Ix2i2RVVrh8Z6qnPPcaDjL+I1oFNhLLwo6SajP6Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ff42930e-2cd2-4350-8018-665ffa057214",
+                            SecurityStamp = "eeb66650-be32-4ac6-8cdd-e2cee9a0fe0f",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
@@ -275,7 +275,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a59a9265-3c62-46d6-b27b-8cc94b64b4f2",
+                            ConcurrencyStamp = "6fc51b77-deb4-4679-9420-114297d85c34",
                             Email = "user2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -283,9 +283,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJmSwRmcH8fAjbkBgxIZWK/BqVPTYk74lcpmKd239vHc0nfoDJcvZDCd6O6YLCnmZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHl5/ZS6aihoqJTzeygBTu6xPQ+et49OuA3DhQjRlziNJ3Gt/AH5hHCKPcuZNGAyhg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ff4685aa-288b-44f0-b2ad-0b9c78a1fd3a",
+                            SecurityStamp = "2c6cc914-d4fd-4d25-b70f-aca82d2ecf2a",
                             TwoFactorEnabled = false,
                             UserName = "user2"
                         },
@@ -293,7 +293,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "41192937-7775-428c-9405-e3a77874405a",
+                            ConcurrencyStamp = "25f8fc4e-a16f-4e9f-b3cc-bd397efd6a50",
                             Email = "user3@example.com",
                             EmailConfirmed = true,
                             FirstName = "Alice",
@@ -301,9 +301,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER3@EXAMPLE.COM",
                             NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKAmEXF7N8kGmdwm5dJpKdqZzV/CuHRwDiXz/Lu7pBbjGrzbWM4oUV4973gM3Z02Fg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM8lbRsRAvS6ZL+hLzSWjUfNzUoLFEDSHetViVxUaoseMIdaQ28bZZEsVdrg1i4Nrw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "73c7a9ec-b7c0-479f-af15-805542ddc8bb",
+                            SecurityStamp = "1214ed67-913c-42bc-8e00-2fd3da9f20cd",
                             TwoFactorEnabled = false,
                             UserName = "user3"
                         },
@@ -311,7 +311,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31d4689a-4bd0-4fc6-99cd-85146fd7ef2d",
+                            ConcurrencyStamp = "b79461a4-c074-4993-9c36-4f70db6e5d3e",
                             Email = "user4@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bob",
@@ -319,9 +319,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER4@EXAMPLE.COM",
                             NormalizedUserName = "USER4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEITPmg8WRAgGA0jgXCznohp5gtlc2484Viz6+klFV8G2029P7uRaax2PGdKWDSR5KA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDRv+2/VnDy9MuX3MKmdKH+ZKvrCWPci+2elR/xWUZN2mKbuRHpe0SeNlVKRBYC6ZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8ea73d08-17e2-49ec-bb57-290e94202f55",
+                            SecurityStamp = "268973f0-4679-45ca-80f1-851d2e0b67d2",
                             TwoFactorEnabled = false,
                             UserName = "user4"
                         },
@@ -329,7 +329,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd17b86f-af57-4e2c-99b8-3a85f3b7faf0",
+                            ConcurrencyStamp = "83488a98-3415-4ca9-b4a2-a1dc6bb41bdd",
                             Email = "user5@example.com",
                             EmailConfirmed = true,
                             FirstName = "Charlie",
@@ -337,9 +337,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER5@EXAMPLE.COM",
                             NormalizedUserName = "USER5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDUxn1egbrcWkw7xQBQkeezq8xB4nQm+zEjmFL03KEyCOnNrVOj+aRDeHwXEqcuO/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEL9rnU2I5IgGn0B0fxUM8mc3RrLVN93TBknwn0bLHTarmdJFGVqB+wMIhr2pIwJRpA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "770576a9-9458-47f4-b6c8-a8df89b5a749",
+                            SecurityStamp = "32bd97d1-1036-49c7-9a3b-d73155f28c5c",
                             TwoFactorEnabled = false,
                             UserName = "user5"
                         },
@@ -347,7 +347,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "331db22d-05d0-41dd-9ebc-4c155c5ef8ff",
+                            ConcurrencyStamp = "fb8fed11-6d9e-4e52-bac2-05d93fa2bf2c",
                             Email = "user6@example.com",
                             EmailConfirmed = true,
                             FirstName = "Emily",
@@ -355,9 +355,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER6@EXAMPLE.COM",
                             NormalizedUserName = "USER6",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEHG+Jcir5X4QzrWX77jStHrlkc+u8/9BAWnWxvlU7CTteV3CDuPzbC6288IfITCcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBJbY0iKLSiIEniUXs8bcUFw07FzxkYAjJXNiU35vH2oceaIteHutpJygoVL8IGUww==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f3df5e7-d387-453b-b812-0c4c0100eb8f",
+                            SecurityStamp = "3c0aa0c5-6b93-4080-9690-74587b809238",
                             TwoFactorEnabled = false,
                             UserName = "user6"
                         });

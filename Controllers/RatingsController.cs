@@ -41,7 +41,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // POST: api/Ratings
         [HttpPost]
-        [Authorize]
+        
         public async Task<ActionResult<Ratings>> CreateRating([FromBody] Ratings newRating)
         {
             if (newRating == null)
@@ -68,7 +68,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // PUT: api/Ratings/{id}
         [HttpPut("{id}")]
-        [Authorize]
+        
         public async Task<IActionResult> UpdateRating(int id, [FromBody] Ratings updatedRating)
         {
             if (updatedRating == null)
@@ -102,7 +102,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // DELETE: api/Ratings/{id}
         [HttpDelete("{id}")]
-        [Authorize]
+        
         public async Task<IActionResult> DeleteRating(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
