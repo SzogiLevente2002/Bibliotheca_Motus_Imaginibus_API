@@ -20,6 +20,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // GET: api/Ratings
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Ratings>>> GetAllRatings()
         {
             return await _context.Ratings.Include(r => r.Movie).Include(r => r.User).ToListAsync();
@@ -27,6 +28,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // GET: api/Ratings/{id}
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Ratings>> GetRatingById(int id)
         {
             var rating = await _context.Ratings.Include(r => r.Movie).Include(r => r.User).FirstOrDefaultAsync(r => r.Id == id);
@@ -41,6 +43,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // POST: api/Ratings
         [HttpPost]
+        [Authorize]
         
         public async Task<ActionResult<Ratings>> CreateRating([FromBody] Ratings newRating)
         {
@@ -68,6 +71,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // PUT: api/Ratings/{id}
         [HttpPut("{id}")]
+        [Authorize]
         
         public async Task<IActionResult> UpdateRating(int id, [FromBody] Ratings updatedRating)
         {
@@ -102,6 +106,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // DELETE: api/Ratings/{id}
         [HttpDelete("{id}")]
+        [Authorize]
         
         public async Task<IActionResult> DeleteRating(int id)
         {

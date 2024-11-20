@@ -1,5 +1,6 @@
 ﻿using Bibliotheca_Motus_Imaginibus_API.Context;
 using Bibliotheca_Motus_Imaginibus_API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,12 +18,14 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpGet]
+        
         public async Task<ActionResult<IEnumerable<Movie>>> GetAllMovie()
         {
             return await _context.Movies.ToListAsync();
         }
 
         [HttpGet("{id}")]
+        
         public async Task<ActionResult<Movie>> GetById(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -36,6 +39,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPost]
+        
         public async Task<ActionResult<Movie>> PostMovies(Movie movie)
         {
             if (movie == null)
@@ -50,6 +54,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPut("{id}")]
+        
         public async Task<ActionResult<Movie>> UpdateMovie(int id, Movie updatedMovie)
         {
             if (updatedMovie == null)
@@ -74,6 +79,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpDelete("{id}")]
+        
         public async Task<IActionResult> DeleteMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -91,6 +97,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
 
         [HttpGet("{id}/kep")]
+        
         public async Task<IActionResult> GetMoviePoster(int id)
         {
             var movie =  await _context.Movies.FindAsync(id);
@@ -113,6 +120,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPut("{id}/kep")]
+        
         public async  Task<IActionResult> PutMoviePoster(int id, [FromForm] MoviePosterUpdateModel poster)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -138,6 +146,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpDelete("{id}/kep")]
+        
         public async Task<IActionResult> DeleteMoviePoster(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

@@ -15,5 +15,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Entities
         [JsonIgnore]
         // Navigációs tulajdonság a felhasználóhoz
         public User User { get; set; }
+        public DateTime AddedDate { get; internal set; }
+        public int MovieId { get; internal set; }
     }
 }

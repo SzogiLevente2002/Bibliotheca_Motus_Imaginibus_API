@@ -137,6 +137,18 @@ namespace Bibliotheca_Motus_Imaginibus_API.Context
                 new Ratings { Id = 7, RatingNumber = 5.0m, MovieId = 4, UserId = "user6", Comment = "One of the greatest films ever made." },
                 new Ratings { Id = 8, RatingNumber = 4.9m, MovieId = 4, UserId = "user2", Comment = "Amazing storytelling and acting." }
             );
+
+            // Watchlist adatok seedelése
+            modelBuilder.Entity<Watchlist>().HasData(
+                new Watchlist { Id = 1, UserId = "user1", MovieId = 1, AddedDate = DateTime.Now.AddDays(-10) },
+                new Watchlist { Id = 2, UserId = "user1", MovieId = 3, AddedDate = DateTime.Now.AddDays(-5) },
+                new Watchlist { Id = 3, UserId = "user2", MovieId = 2, AddedDate = DateTime.Now.AddDays(-15) },
+                new Watchlist { Id = 4, UserId = "user3", MovieId = 4, AddedDate = DateTime.Now.AddDays(-20) },
+                new Watchlist { Id = 5, UserId = "user4", MovieId = 1, AddedDate = DateTime.Now.AddDays(-25) },
+                new Watchlist { Id = 6, UserId = "user5", MovieId = 2, AddedDate = DateTime.Now.AddDays(-30) },
+                new Watchlist { Id = 7, UserId = "user6", MovieId = 4, AddedDate = DateTime.Now.AddDays(-35) }
+            );
+
         }
 
     }

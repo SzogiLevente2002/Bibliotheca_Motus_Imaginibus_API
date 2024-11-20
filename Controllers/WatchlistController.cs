@@ -85,6 +85,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateWatchlistById(int id, List<int> movieIds)
         {
             var watchlist = await _context.Watchlists
