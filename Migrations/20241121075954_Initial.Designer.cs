@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bibliotheca_Motus_Imaginibus_API.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20241120080412_Initial")]
+    [Migration("20241121075954_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -260,7 +260,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "346bc07b-7833-4d0c-a916-463e16744d1b",
+                            ConcurrencyStamp = "c88d08ae-0225-4952-8505-d2bfc69451b1",
                             Email = "user1@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -268,9 +268,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKPuMzOmPsEB3n6IpbNwWyNnIGaEGFDJ+a7/uoSaSmM5iD/lfl/3DAL6eBiaDB5K1A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFeQhR8TD8VY/OXjhC0qbQin8SKxqhQbeIVy55V0Ag4g/P7zqeJhfe1H+A2+yWNpAA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "468e662d-e10d-4f35-aadd-9ff3b2724382",
+                            SecurityStamp = "e05ce44c-9355-4f16-ad7f-1fc4a22548b1",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
@@ -278,7 +278,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3b6ce7b3-2e09-4945-afbc-9b18b3b1c75f",
+                            ConcurrencyStamp = "2e6e5161-bddb-4643-97fd-71c95d201dea",
                             Email = "user2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jane",
@@ -286,9 +286,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDE18ZeBrfE5gnfGNqJ8mhTnCAq37LPe6KjxqVBTGAsSDow6DIFLD0/dcn4B/UsuSQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELvsjeuyQpg7rTiWBOVruWgGN1TTohnfm3yGFv1ZWSc2bIeYCfzgF7pHe4fWvDulRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "94856e6e-c662-489c-95af-7760890d3c53",
+                            SecurityStamp = "f6c5d375-227a-455f-a1d0-f4f8ebf253e9",
                             TwoFactorEnabled = false,
                             UserName = "user2"
                         },
@@ -296,7 +296,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b940f582-ba38-4048-a4f3-6b8f03daeaab",
+                            ConcurrencyStamp = "697b9db7-497c-4de7-b7c9-a64bd5b11a8f",
                             Email = "user3@example.com",
                             EmailConfirmed = true,
                             FirstName = "Alice",
@@ -304,9 +304,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER3@EXAMPLE.COM",
                             NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBUfJSu60NjxkpemD0xOlKzXm7yZ/IP0M/uhqgqTQgkvCWi/VEk6y2LqwmkC0eAgvg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEAGW45H4ILQe5dbQBGkOtfWE7XB/bzPiwr21g/CZw/tbPv56z7zlvS4VBsXEPjn+w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "037459a5-50e3-49a4-b44a-be698b94be0c",
+                            SecurityStamp = "1b3d7b7a-74c4-48b5-89fe-8229d99ecd35",
                             TwoFactorEnabled = false,
                             UserName = "user3"
                         },
@@ -314,7 +314,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3b2924ef-6a6d-488b-b7bb-60f3b2d76937",
+                            ConcurrencyStamp = "ec6d5c7b-931e-4e55-bc11-5d1ea1b9b8b6",
                             Email = "user4@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bob",
@@ -322,9 +322,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER4@EXAMPLE.COM",
                             NormalizedUserName = "USER4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEB/X1NPQd9ox/S/HzIz31VT2Prw7ATY+LOOiYBRiRkQOZCMjOLvmefUHh90prziNLQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECnRNsWla5IDhpsEltEcH2uFXy3A2aCbShxeWEUtUqQ3cZZyDeRCD2+8zPVGAb/CaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "438f6cb7-f8da-409b-8ac4-bad5e4fe222f",
+                            SecurityStamp = "05e6c9f8-2b0a-4731-9048-3eaf34983671",
                             TwoFactorEnabled = false,
                             UserName = "user4"
                         },
@@ -332,7 +332,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "901e094d-fdd1-44bd-8239-3b92c743ab37",
+                            ConcurrencyStamp = "6da900a4-bbce-41f2-b5fc-c7883beebf0f",
                             Email = "user5@example.com",
                             EmailConfirmed = true,
                             FirstName = "Charlie",
@@ -340,9 +340,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER5@EXAMPLE.COM",
                             NormalizedUserName = "USER5",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFxdzJhtEp1ogu2BHcOSgkY9oYHDSl4xTUttHuvKmWnjn7E5Kfj+ZSRp2ZpjlrvfsA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKeqaf51y4ZazkBWmzd9EaTYXcWd9p4Enip5IVlikDdlwVunF3XcSHkQLGDBavFAJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a7b9fae4-c1b3-4e88-802b-ace3e7fc6772",
+                            SecurityStamp = "9386345a-29e3-4c00-986a-a72f7f4b1143",
                             TwoFactorEnabled = false,
                             UserName = "user5"
                         },
@@ -350,7 +350,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         {
                             Id = "user6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "deb88840-135c-4f6a-a2fd-1ca664965ce6",
+                            ConcurrencyStamp = "3de21e64-1cb5-4e91-80d8-88cb895c2303",
                             Email = "user6@example.com",
                             EmailConfirmed = true,
                             FirstName = "Emily",
@@ -358,9 +358,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER6@EXAMPLE.COM",
                             NormalizedUserName = "USER6",
-                            PasswordHash = "AQAAAAIAAYagAAAAECBsSkWwkawvQ4Vcf2QVPM++5IeiTtobj31fvYCHcuufCxsdlgos7mby30tzVAk6Uw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGixdU2tOTGQc1odCSdaFMC/+BIJpJyJySVafSePYksd/bPtUCDa+I3BzGRC3gCTSw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f7b3a08-c272-4cf5-a8f0-e6736118836a",
+                            SecurityStamp = "5b65cd82-115e-4c03-8fbc-487559951d7c",
                             TwoFactorEnabled = false,
                             UserName = "user6"
                         });
@@ -392,49 +392,49 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                         new
                         {
                             Id = 1,
-                            AddedDate = new DateTime(2024, 11, 10, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5251),
+                            AddedDate = new DateTime(2024, 11, 11, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7871),
                             MovieId = 1,
                             UserId = "user1"
                         },
                         new
                         {
                             Id = 2,
-                            AddedDate = new DateTime(2024, 11, 15, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5318),
+                            AddedDate = new DateTime(2024, 11, 16, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7941),
                             MovieId = 3,
                             UserId = "user1"
                         },
                         new
                         {
                             Id = 3,
-                            AddedDate = new DateTime(2024, 11, 5, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5320),
+                            AddedDate = new DateTime(2024, 11, 6, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7943),
                             MovieId = 2,
                             UserId = "user2"
                         },
                         new
                         {
                             Id = 4,
-                            AddedDate = new DateTime(2024, 10, 31, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5322),
+                            AddedDate = new DateTime(2024, 11, 1, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7945),
                             MovieId = 4,
                             UserId = "user3"
                         },
                         new
                         {
                             Id = 5,
-                            AddedDate = new DateTime(2024, 10, 26, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5324),
+                            AddedDate = new DateTime(2024, 10, 27, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7947),
                             MovieId = 1,
                             UserId = "user4"
                         },
                         new
                         {
                             Id = 6,
-                            AddedDate = new DateTime(2024, 10, 21, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5326),
+                            AddedDate = new DateTime(2024, 10, 22, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7949),
                             MovieId = 2,
                             UserId = "user5"
                         },
                         new
                         {
                             Id = 7,
-                            AddedDate = new DateTime(2024, 10, 16, 9, 4, 11, 902, DateTimeKind.Local).AddTicks(5336),
+                            AddedDate = new DateTime(2024, 10, 17, 8, 59, 53, 713, DateTimeKind.Local).AddTicks(7956),
                             MovieId = 4,
                             UserId = "user6"
                         });

@@ -23,15 +23,15 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<Ratings>>> GetAllRatings()
         {
-            return await _context.Ratings.Include(r => r.Movie).Include(r => r.User).ToListAsync();
+            return await _context.Ratings.ToListAsync();
         }
 
         // GET: api/Ratings/{id}
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<Ratings>> GetRatingById(int id)
+        public async Task<ActionResult<Ratings>> GetById(int id)
         {
-            var rating = await _context.Ratings.Include(r => r.Movie).Include(r => r.User).FirstOrDefaultAsync(r => r.Id == id);
+            var rating = await _context.Ratings.FindAsync(id);
 
             if (rating == null)
             {
@@ -65,7 +65,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
             _context.Ratings.Add(newRating);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetRatingById), new { id = newRating.Id }, newRating);
+            return CreatedAtAction(nameof(GetById), new { id = newRating.Id }, newRating);
         }
 
 

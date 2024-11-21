@@ -6,6 +6,10 @@ namespace Bibliotheca_Motus_Imaginibus_API.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public string Director { get; set; }
+
+        public List<string> Actors { get; set; }
         public DateTime ReleasedDate { get; set; }
         public string Genre { get; set; }
         public int Length { get; set; }

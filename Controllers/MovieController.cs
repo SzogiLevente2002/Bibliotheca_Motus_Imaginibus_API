@@ -73,6 +73,8 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
             movieToUpdate.ReleasedDate = updatedMovie.ReleasedDate;
             movieToUpdate.Length = updatedMovie.Length;
             movieToUpdate.Genre = updatedMovie.Genre;
+            movieToUpdate.Director = updatedMovie.Director;
+            movieToUpdate.Actors = updatedMovie.Actors;
 
             await _context.SaveChangesAsync();
             return Ok("Sikeresen frissítve: " + movieToUpdate.Title);
