@@ -97,7 +97,7 @@ public class AccountController(
 
         var userRole = await userManager.GetRolesAsync(user);
 
-        string token = GenerateToken(user.Id, user.UserName, user.Email, userRole.First());
+        string token = GenerateToken(user.Id, user.UserName, user.Email, userRole.ToList());
 
         var response = new
         {
@@ -108,17 +108,22 @@ public class AccountController(
 
     }
 
-    private string GenerateToken(string id, string name, string email, string role)
+    private string GenerateToken(string id, string name, string email, IList<string> roles)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        // A szerepkörök listáját egyetlen stringgé alakítjuk
+        var rolesClaim = string.Join(",", roles);
+
         var userClaims = new[]
         {
         new Claim(ClaimTypes.NameIdentifier, id),
         new Claim(ClaimTypes.Name, name),
         new Claim(ClaimTypes.Email, email),
-        new Claim(ClaimTypes.Role, role)
+        new Claim(ClaimTypes.Role, rolesClaim)  // Az összes szerepkör hozzáadása
     };
+
         var token = new JwtSecurityToken(
             issuer: config["Jwt:Issuer"],           // Az alkalmazás kiadója (Issuer)
             audience: config["Jwt:Audience"],       // A token címzettje (Audience)
@@ -126,9 +131,13 @@ public class AccountController(
             expires: DateTime.Now.AddDays(1),
             signingCredentials: credentials
         );
+
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+
 }
+
 
 
 

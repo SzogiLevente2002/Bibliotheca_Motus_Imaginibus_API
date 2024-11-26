@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Bibliotheca_Motus_Imaginibus_API.Context;
+using Bibliotheca_Motus_Imaginibus_API.DTOs;
 using Bibliotheca_Motus_Imaginibus_API.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,112 +27,93 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
             return await _context.Ratings.ToListAsync();
         }
 
-        // GET: api/Ratings/{id}
         [HttpGet("{id}")]
-        [Authorize]
+
         public async Task<ActionResult<Ratings>> GetById(int id)
         {
             var rating = await _context.Ratings.FindAsync(id);
 
             if (rating == null)
             {
-                return NotFound("Az értékelés nem található.");
+                return NotFound();
             }
 
             return Ok(rating);
         }
 
-        // POST: api/Ratings
         [HttpPost]
-        [Authorize]
-        
-        public async Task<ActionResult<Ratings>> CreateRating([FromBody] Ratings newRating)
+        public async Task<IActionResult> CreateRating([FromBody] RatingsDTO ratingsDto)
         {
-            if (newRating == null)
+            if (ratingsDto == null)
             {
-                return BadRequest("Az értékelés adatai nem lehetnek üresek.");
+                return BadRequest("Invalid rating data.");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // A bejelentkezett felhasználó ID-ja
-            newRating.UserId = userId; // Állítsuk be az UserId-t
+            var movie = await _context.Movies.FindAsync(ratingsDto.MovieId);
+            var user = await _context.Users.FindAsync(ratingsDto.UserId);
 
-            // Ellenőrizd, hogy a film létezik-e
-            var movie = await _context.Movies.FindAsync(newRating.MovieId);
-            if (movie == null)
+            if (movie == null || user == null)
             {
-                return NotFound("A megadott film nem található.");
+                return NotFound("Movie or User not found.");
             }
 
-            _context.Ratings.Add(newRating);
+            var rating = new Ratings
+            {
+                RatingNumber = ratingsDto.RatingNumber,
+                MovieId = ratingsDto.MovieId,
+                UserId = ratingsDto.UserId,
+                Comment = ratingsDto.Comment
+            };
+
+            _context.Ratings.Add(rating);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new { id = newRating.Id }, newRating);
+            return Ok();
         }
 
 
-        // PUT: api/Ratings/{id}
         [HttpPut("{id}")]
-        [Authorize]
-        
-        public async Task<IActionResult> UpdateRating(int id, [FromBody] Ratings updatedRating)
+
+        public async Task<ActionResult<Movie>> UpdateRatings(int id, Ratings updatedRating)
         {
             if (updatedRating == null)
             {
-                return BadRequest("Az értékelés adatai nem lehetnek üresek.");
+                return BadRequest("A frissítési adatok nem lehetnek üresek.");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
+            var ratingToUpdate = await _context.Ratings.FindAsync(id);
+
+            if (ratingToUpdate == null)
             {
-                return Unauthorized("Felhasználói azonosító nem található.");
+                return NotFound("A értékelés nem található.");
             }
 
-            var existingRating = await _context.Ratings.FindAsync(id);
-            if (existingRating == null)
-            {
-                return NotFound("Az értékelés nem található.");
-            }
-
-            if (existingRating.UserId != userId)
-            {
-                return Forbid("Nem módosíthatod más felhasználó értékelését.");
-            }
-
-            existingRating.RatingNumber = updatedRating.RatingNumber;
-            existingRating.Comment = updatedRating.Comment;
+            ratingToUpdate.RatingNumber = updatedRating.RatingNumber;
+            ratingToUpdate.MovieId = updatedRating.MovieId;
+            ratingToUpdate.UserId = updatedRating.UserId;
+            ratingToUpdate.Comment = updatedRating.Comment;
 
             await _context.SaveChangesAsync();
-            return Ok("Az értékelés sikeresen frissítve.");
+            return Ok("Sikeresen frissítve: " + ratingToUpdate.UserId);
         }
 
-        // DELETE: api/Ratings/{id}
         [HttpDelete("{id}")]
-        [Authorize]
-        
-        public async Task<IActionResult> DeleteRating(int id)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized("Felhasználói azonosító nem található.");
-            }
 
+        public async Task<IActionResult> DeleteRatings(int id)
+        {
             var rating = await _context.Ratings.FindAsync(id);
 
             if (rating == null)
             {
-                return NotFound("Az értékelés nem található.");
-            }
-
-            if (rating.UserId != userId)
-            {
-                return Forbid("Nem törölheted más felhasználó értékelését.");
+                return NotFound("Az értékelés  nem található.");
             }
 
             _context.Ratings.Remove(rating);
             await _context.SaveChangesAsync();
 
-            return Ok("Az értékelés sikeresen törölve.");
+            return Ok("Sikeresen törölve: " + rating.UserId);
         }
+
+
     }
 }

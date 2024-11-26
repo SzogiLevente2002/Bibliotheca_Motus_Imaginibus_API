@@ -20,115 +20,84 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
             _userManager = userManager;
         }
 
+        // GET: api/Ratings
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<Watchlist>> GetUserWatchlist()
+        public async Task<ActionResult<IEnumerable<Watchlist>>> GetAllWatchlists()
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized("Felhasználó azonosító nem található.");
-
-            var watchlist = await _context.Watchlists
-                .Include(w => w.Movies)
-                .FirstOrDefaultAsync(w => w.UserId == userId);
-
-            if (watchlist == null) return NotFound("A figyelőlista nem található.");
-
-            return Ok(watchlist);
+            return await _context.Watchlists.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWatchlistById(int id)
+
+        public async Task<ActionResult<Watchlist>> GetById(int id)
         {
-            var watchlist = await _context.Watchlists
-                .Include(w => w.Movies)
-                .FirstOrDefaultAsync(w => w.Id == id);
+            var watchlist = await _context.Watchlists.FindAsync(id);
 
             if (watchlist == null)
             {
-                return NotFound("A nézési lista nem található.");
+                return NotFound();
             }
 
             return Ok(watchlist);
         }
 
         [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> AddMovieToWatchlist(int movieId)
+
+        public async Task<ActionResult<Watchlist>> PostWatchlists(Watchlist watchlist)
         {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized("Felhasználó azonosító nem található.");
-
-            var movie = await _context.Movies.FindAsync(movieId);
-            if (movie == null) return NotFound("Film nem található.");
-
-            var watchlist = await _context.Watchlists
-                .Include(w => w.Movies)
-                .FirstOrDefaultAsync(w => w.UserId == userId);
-
             if (watchlist == null)
             {
-                watchlist = new Watchlist
-                {
-                    UserId = userId,
-                    Movies = new List<Movie> { movie }
-                };
-                _context.Watchlists.Add(watchlist);
-            }
-            else
-            {
-                if (watchlist.Movies.Contains(movie)) return BadRequest("A film már szerepel a figyelőlistában.");
-                watchlist.Movies.Add(movie);
+                return BadRequest("A ratings paraméterei nem lehetnek üresek.");
             }
 
+            _context.Watchlists.Add(watchlist);
             await _context.SaveChangesAsync();
-            return Ok("Film hozzáadva a figyelőlistához.");
+
+            return Ok("Sikeresen létrehozva: " + watchlist.UserId);
         }
 
         [HttpPut("{id}")]
-        [Authorize]
-        public async Task<IActionResult> UpdateWatchlistById(int id, List<int> movieIds)
+
+        public async Task<ActionResult<Watchlist>> UpdateWatchlists(int id, Watchlist updatedWatchlist)
         {
-            var watchlist = await _context.Watchlists
-                .Include(w => w.Movies)
-                .FirstOrDefaultAsync(w => w.Id == id);
+            if (updatedWatchlist == null)
+            {
+                return BadRequest("A frissítési adatok nem lehetnek üresek.");
+            }
+
+            var watchlistToUpdate = await _context.Watchlists.FindAsync(id);
+
+            if (watchlistToUpdate == null)
+            {
+                return NotFound("A értékelés nem található.");
+            }
+
+            watchlistToUpdate.UserId = updatedWatchlist.UserId;
+            watchlistToUpdate.User = updatedWatchlist.User;
+            watchlistToUpdate.AddedDate = updatedWatchlist.AddedDate;
+            watchlistToUpdate.MovieId = updatedWatchlist.MovieId;
+
+            await _context.SaveChangesAsync();
+            return Ok("Sikeresen frissítve: " + watchlistToUpdate.UserId);
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteWatchlists(int id)
+        {
+            var watchlist = await _context.Watchlists.FindAsync(id);
 
             if (watchlist == null)
             {
-                return NotFound("A nézési lista nem található.");
+                return NotFound("A watchlist nem található.");
             }
 
-            var movies = await _context.Movies
-                .Where(m => movieIds.Contains(m.Id))
-                .ToListAsync();
-
-            watchlist.Movies = movies;
-
+            _context.Watchlists.Remove(watchlist);
             await _context.SaveChangesAsync();
-            return Ok("A nézési lista sikeresen frissítve.");
+
+            return Ok("Sikeresen törölve: " + watchlist.UserId);
         }
 
-
-        
-
-        [HttpDelete("{movieId}")]
-        [Authorize]
-        public async Task<IActionResult> RemoveMovieFromWatchlist(int movieId)
-        {
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Unauthorized("Felhasználó azonosító nem található.");
-
-            var watchlist = await _context.Watchlists
-                .Include(w => w.Movies)
-                .FirstOrDefaultAsync(w => w.UserId == userId);
-
-            if (watchlist == null) return NotFound("A figyelőlista nem található.");
-
-            var movie = watchlist.Movies.FirstOrDefault(m => m.Id == movieId);
-            if (movie == null) return NotFound("A film nem található a figyelőlistában.");
-
-            watchlist.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
-            return Ok("Film eltávolítva a figyelőlistáról.");
-        }
     }
 }
