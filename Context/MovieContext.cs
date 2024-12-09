@@ -13,42 +13,9 @@ namespace Bibliotheca_Motus_Imaginibus_API.Context
         public DbSet<Ratings> Ratings { get; set; }
         public DbSet<Watchlist> Watchlists { get; set; }
 
-        //public DbSet<Actor> Actors { get; set; }
-        //public DbSet<MovieActor> MovieActors { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //// A MovieActor entitás kulcsainak meghatározása
-            //modelBuilder.Entity<MovieActor>()
-            //    .HasKey(ma => new { ma.MovieId, ma.ActorId });
-
-            //// Kapcsolatok beállítása a MovieActor entitásban
-            //modelBuilder.Entity<MovieActor>()
-            //    .HasOne(ma => ma.Movie)
-            //    .WithMany(m => m.MovieActors)
-            //    .HasForeignKey(ma => ma.MovieId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<MovieActor>()
-            //    .HasOne(ma => ma.Actor)
-            //    .WithMany(a => a.Movies)
-            //    .HasForeignKey(ma => ma.ActorId)
-            //    .OnDelete(DeleteBehavior.Cascade); // Ha egy szereplőt törlünk, akkor a kapcsolódó filmek is törlődnek
-
-            //// Movie entitás konfigurációja
-            //modelBuilder.Entity<Movie>()
-            //    .HasMany(m => m.MovieActors)
-            //    .WithOne(ma => ma.Movie)
-            //    .HasForeignKey(ma => ma.MovieId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-            //// Actor entitás konfigurációja
-            //modelBuilder.Entity<Actor>()
-            //    .HasMany(a => a.Movies)
-            //    .WithOne(ma => ma.Actor)
-            //    .HasForeignKey(ma => ma.ActorId)
-            //    .OnDelete(DeleteBehavior.Cascade); // Az Actor entitásnál a szereplő törlésével a kapcsolódó filmek is törlődnek
 
             // A Ratings entitás konfigurálása
             modelBuilder.Entity<Ratings>()

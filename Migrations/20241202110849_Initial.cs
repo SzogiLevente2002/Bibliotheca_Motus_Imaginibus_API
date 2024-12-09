@@ -258,12 +258,12 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "user1", 0, "6a66cf13-7d05-4e39-9387-f05ce365278d", "user1@example.com", true, "John", "Doe", false, null, "USER1@EXAMPLE.COM", "USER1", "AQAAAAIAAYagAAAAEIkljxRx+t0HzDwUYocZaCoqA8O/verrdcSiCgV2Dhq/ZdN6e24z3Wu6cV20V3y5VQ==", null, false, "68b1981c-94e5-4490-b5ac-d17427251043", false, "user1" },
-                    { "user2", 0, "d00152b4-2109-48a6-b4bc-afdb76fc6186", "user2@example.com", true, "Jane", "Smith", false, null, "USER2@EXAMPLE.COM", "USER2", "AQAAAAIAAYagAAAAEHJywxhWbdlRuVNFi1czqdx979GxE3I4avsZvjkFIya7LUaKiK9n9FNgbwWILOS4Lw==", null, false, "171c57a5-328c-4c90-9b9f-65359965d707", false, "user2" },
-                    { "user3", 0, "9c8221ca-4105-4691-ba79-5007b71ec96f", "user3@example.com", true, "Alice", "Johnson", false, null, "USER3@EXAMPLE.COM", "USER3", "AQAAAAIAAYagAAAAEOcw0/8he3m7dA01jLtE0PLWrpEsATDPYGCneOcYHaQosw6ExXUY3a03PrLeiKJaKg==", null, false, "fd16d671-aec3-4051-ac88-ee79094606db", false, "user3" },
-                    { "user4", 0, "c390df62-bbfb-4cc0-aab9-de2b3a911ffc", "user4@example.com", true, "Bob", "Brown", false, null, "USER4@EXAMPLE.COM", "USER4", "AQAAAAIAAYagAAAAEGd2HFhREd6Mk3wtzzoq9GOoVCIzMtWHnMN5wyxPskS/2yti/1OqBUXja0WV/KKQWg==", null, false, "c0a4cf30-447f-45b9-8a03-184dcb36da6d", false, "user4" },
-                    { "user5", 0, "44977e4a-0fb9-491a-b927-010019adf441", "user5@example.com", true, "Charlie", "Davis", false, null, "USER5@EXAMPLE.COM", "USER5", "AQAAAAIAAYagAAAAEINwdiFaOS7jwJUZN4v4hjoUppzFnqgu8p8SccPMrQ5wfaxOizA6+4K3TWlDAGkJAg==", null, false, "1d47d11e-a76e-497f-9043-04d9bbe2a519", false, "user5" },
-                    { "user6", 0, "05c44ade-9b77-4b88-87a6-b0946a4453ec", "user6@example.com", true, "Emily", "Wilson", false, null, "USER6@EXAMPLE.COM", "USER6", "AQAAAAIAAYagAAAAELDt/obl7F73V60VEMyAqhICj5lAGVHoo73g76ZReqp85lWBW1qprhb1zknQdW0S3Q==", null, false, "76de24da-34fa-4958-8304-99145d8d54b9", false, "user6" }
+                    { "user1", 0, "d9231784-b160-423d-af93-b9a289899a64", "user1@example.com", true, "John", "Doe", false, null, "USER1@EXAMPLE.COM", "USER1", "AQAAAAIAAYagAAAAEOcaXVq5ztAgD4WBFRhB75BJK/NEifSIWTes6WnHnpePv0WQ0VdfycNtc20L+2HwJg==", null, false, "647a2584-6da4-42c3-81b4-362c941ae726", false, "user1" },
+                    { "user2", 0, "654845df-fcf4-4839-b163-1cfc1c400df9", "user2@example.com", true, "Jane", "Smith", false, null, "USER2@EXAMPLE.COM", "USER2", "AQAAAAIAAYagAAAAEFqj4fgWZERFGteUwoJKnahhdjuCYOoovCVxKF7BE9B5VNaSM20CaMIMELfjUMHtiQ==", null, false, "6e087875-eeeb-4f84-b869-6c9999baf85d", false, "user2" },
+                    { "user3", 0, "540128b6-ee7a-4846-a8fa-19a4c5e23157", "user3@example.com", true, "Alice", "Johnson", false, null, "USER3@EXAMPLE.COM", "USER3", "AQAAAAIAAYagAAAAEOsSwT4nmpRcrvNYukwR7Ad1g32RW2EERNnqFoRtURyD+BnR4BWY9nUpuxtHap4P6A==", null, false, "a9902876-859e-41b3-9303-b30da760e1df", false, "user3" },
+                    { "user4", 0, "45ab2ecb-ac8e-46cd-a0d0-df610fbaed46", "user4@example.com", true, "Bob", "Brown", false, null, "USER4@EXAMPLE.COM", "USER4", "AQAAAAIAAYagAAAAEHGIPWOxwQJKhRycxd+9o01BsZPqth9xwgJ7fMndNTMBiIVXPktuToGXD2XLM8lTjQ==", null, false, "21973137-0204-4fae-94c7-0ba1286c468b", false, "user4" },
+                    { "user5", 0, "706d1640-8d1d-4ccb-8928-93ffa8a7985e", "user5@example.com", true, "Charlie", "Davis", false, null, "USER5@EXAMPLE.COM", "USER5", "AQAAAAIAAYagAAAAEEqCQZKnB+UpVlSkXsEAW8c1zEM05YKNDi7qZsGRWrS44dlZFrPO+rPCiQ1pxtYRmQ==", null, false, "d3801f3e-dfab-44d9-93e2-850763ac56dc", false, "user5" },
+                    { "user6", 0, "57d73ea3-c294-4d6b-9e1d-f310b7cd2058", "user6@example.com", true, "Emily", "Wilson", false, null, "USER6@EXAMPLE.COM", "USER6", "AQAAAAIAAYagAAAAEC7kRdOXd+bS/pkgonCuRaMb/zycb5jQtf4OUz/c1lQKZKSZvmj9lcM76zaD1fsBZw==", null, false, "b1617bf8-620c-4dfa-8291-6d5c34cc9a4a", false, "user6" }
                 });
 
             migrationBuilder.InsertData(
@@ -310,13 +310,13 @@ namespace Bibliotheca_Motus_Imaginibus_API.Migrations
                 columns: new[] { "Id", "AddedDate", "MovieId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 11, 22, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(284), 1, "user1" },
-                    { 2, new DateTime(2024, 11, 27, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(366), 3, "user1" },
-                    { 3, new DateTime(2024, 11, 17, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(369), 2, "user2" },
-                    { 4, new DateTime(2024, 11, 12, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(372), 4, "user3" },
-                    { 5, new DateTime(2024, 11, 7, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(375), 1, "user4" },
-                    { 6, new DateTime(2024, 11, 2, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(379), 2, "user5" },
-                    { 7, new DateTime(2024, 10, 28, 10, 33, 52, 769, DateTimeKind.Local).AddTicks(388), 4, "user6" }
+                    { 1, new DateTime(2024, 11, 22, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3166), 1, "user1" },
+                    { 2, new DateTime(2024, 11, 27, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3255), 3, "user1" },
+                    { 3, new DateTime(2024, 11, 17, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3258), 2, "user2" },
+                    { 4, new DateTime(2024, 11, 12, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3260), 4, "user3" },
+                    { 5, new DateTime(2024, 11, 7, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3262), 1, "user4" },
+                    { 6, new DateTime(2024, 11, 2, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3264), 2, "user5" },
+                    { 7, new DateTime(2024, 10, 28, 12, 8, 49, 380, DateTimeKind.Local).AddTicks(3271), 4, "user6" }
                 });
 
             migrationBuilder.CreateIndex(

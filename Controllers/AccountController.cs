@@ -108,6 +108,101 @@ public class AccountController(
 
     }
 
+    // Felhasználónév módosítása
+    [HttpPut("update-username")]
+    [Authorize] // Csak bejelentkezett felhasználók számára elérhető
+    public async Task<IActionResult> UpdateUsername([FromBody] UpdateUsernameDTO updateUsernameDto)
+    {
+        var user = await userManager.GetUserAsync(User); // Jelenlegi bejelentkezett felhasználó
+
+        if (user == null)
+        {
+            return NotFound("Felhasználó nem található.");
+        }
+
+        // Ellenőrizd, hogy az új felhasználónév már létezik-e
+        var existingUser = await userManager.FindByNameAsync(updateUsernameDto.NewUsername);
+        if (existingUser != null)
+        {
+            return BadRequest("Ez a felhasználónév már használatban van.");
+        }
+
+        // Felhasználónév módosítása
+        user.UserName = updateUsernameDto.NewUsername;
+
+        var result = await userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest("Felhasználónév módosítása nem sikerült.");
+        }
+
+        return Ok("Felhasználónév sikeresen módosítva.");
+    }
+    // Email módosítása
+    [HttpPut("update-email")]
+    [Authorize] // Csak bejelentkezett felhasználók számára elérhető
+    public async Task<IActionResult> UpdateEmail([FromBody] UpdateEmailDTO updateEmailDto)
+    {
+        var user = await userManager.GetUserAsync(User); // Jelenlegi bejelentkezett felhasználó
+
+        if (user == null)
+        {
+            return NotFound("Felhasználó nem található.");
+        }
+
+        // Ellenőrizd, hogy az új email cím már létezik-e
+        var existingUser = await userManager.FindByEmailAsync(updateEmailDto.NewEmail);
+        if (existingUser != null)
+        {
+            return BadRequest("Ez az email cím már használatban van.");
+        }
+
+        // Email módosítása
+        user.Email = updateEmailDto.NewEmail;
+        user.UserName = updateEmailDto.NewEmail.Split('@')[0]; // A felhasználónév frissítése is
+
+        var result = await userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest("Email módosítása nem sikerült.");
+        }
+
+        return Ok("Email sikeresen módosítva.");
+    }
+
+    // Jelszó módosítása
+    [HttpPut("update-password")]
+    [Authorize] // Csak bejelentkezett felhasználók számára elérhető
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordDTO updatePasswordDto)
+    {
+        var user = await userManager.GetUserAsync(User); // Jelenlegi bejelentkezett felhasználó
+
+        if (user == null)
+        {
+            return NotFound("Felhasználó nem található.");
+        }
+
+        // Ellenőrizd, hogy a régi jelszó helyes-e
+        var checkPasswordResult = await userManager.CheckPasswordAsync(user, updatePasswordDto.OldPassword);
+        if (!checkPasswordResult)
+        {
+            return BadRequest("Helytelen régi jelszó.");
+        }
+
+        // Jelszó módosítása
+        var result = await userManager.ChangePasswordAsync(user, updatePasswordDto.OldPassword, updatePasswordDto.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest("Jelszó módosítása nem sikerült.");
+        }
+
+        return Ok("Jelszó sikeresen módosítva.");
+    }
+
+
     private string GenerateToken(string id, string name, string email, IList<string> roles)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
