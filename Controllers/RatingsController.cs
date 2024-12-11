@@ -21,13 +21,14 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // GET: api/Ratings
         [HttpGet]
-        [Authorize]
+        
         public async Task<ActionResult<IEnumerable<Ratings>>> GetAllRatings()
         {
             return await _context.Ratings.ToListAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
 
         public async Task<ActionResult<Ratings>> GetById(int id)
         {
@@ -42,6 +43,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostRating(RatingsDTO ratingDto)
         {
             // Ellenőrizzük, hogy a film létezik-e
@@ -77,6 +79,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRatings(int id, RatingsDTO ratingDto)
         {
             var rating = await _context.Ratings.FindAsync(id);
@@ -103,6 +106,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
 
         public async Task<IActionResult> DeleteRatings(int id)
         {

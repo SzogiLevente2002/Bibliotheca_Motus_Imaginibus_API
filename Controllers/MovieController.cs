@@ -1,166 +1,168 @@
 ﻿using Bibliotheca_Motus_Imaginibus_API.Context;
 using Bibliotheca_Motus_Imaginibus_API.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bibliotheca_Motus_Imaginibus_API.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class MovieController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class MovieController : ControllerBase
+    private readonly MovieContext _context;
+
+    public MovieController(MovieContext context)
     {
-        private readonly MovieContext _context;
+        _context = context;
+    }
 
-        public MovieController(MovieContext context)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Movie>>> GetAllMovie()
+    {
+        return await _context.Movies.ToListAsync();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Movie>> GetById(int id)
+    {
+        var movie = await _context.Movies.FindAsync(id);
+
+        if (movie == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        [HttpGet]
-        
-        public async Task<ActionResult<IEnumerable<Movie>>> GetAllMovie()
+        return Ok(movie);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Movie>> PostMovies(Movie movie)
+    {
+        if (movie == null)
         {
-            return await _context.Movies.ToListAsync();
+            return BadRequest("A film paraméterei nem lehetnek üresek.");
         }
 
-        [HttpGet("{id}")]
-        
-        public async Task<ActionResult<Movie>> GetById(int id)
+        _context.Movies.Add(movie);
+        await _context.SaveChangesAsync();
+
+        return Ok("Sikeresen létrehozva: " + movie.Title);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Movie>> UpdateMovie(int id, Movie updatedMovie)
+    {
+        if (updatedMovie == null)
         {
-            var movie = await _context.Movies.FindAsync(id);
-
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(movie);
+            return BadRequest("A frissítési adatok nem lehetnek üresek.");
         }
 
-        [HttpPost]
-        
-        public async Task<ActionResult<Movie>> PostMovies(Movie movie)
+        var movieToUpdate = await _context.Movies.FindAsync(id);
+
+        if (movieToUpdate == null)
         {
-            if (movie == null)
-            {
-                return BadRequest("A film paraméterei nem lehetnek üresek.");
-            }
-
-            _context.Movies.Add(movie);
-            await _context.SaveChangesAsync();
-
-            return Ok("Sikeresen létrehozva: " + movie.Title);
+            return NotFound("A film nem található.");
         }
 
-        [HttpPut("{id}")]
-        
-        public async Task<ActionResult<Movie>> UpdateMovie(int id, Movie updatedMovie)
+        movieToUpdate.Title = updatedMovie.Title;
+        movieToUpdate.ReleasedDate = updatedMovie.ReleasedDate;
+        movieToUpdate.Length = updatedMovie.Length;
+        movieToUpdate.Genre = updatedMovie.Genre;
+        movieToUpdate.Director = updatedMovie.Director;
+
+        await _context.SaveChangesAsync();
+        return Ok("Sikeresen frissítve: " + movieToUpdate.Title);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMovie(int id)
+    {
+        var movie = await _context.Movies.FindAsync(id);
+
+        if (movie == null)
         {
-            if (updatedMovie == null)
-            {
-                return BadRequest("A frissítési adatok nem lehetnek üresek.");
-            }
-
-            var movieToUpdate = await _context.Movies.FindAsync(id);
-
-            if (movieToUpdate == null)
-            {
-                return NotFound("A film nem található.");
-            }
-
-            movieToUpdate.Title = updatedMovie.Title;
-            movieToUpdate.ReleasedDate = updatedMovie.ReleasedDate;
-            movieToUpdate.Length = updatedMovie.Length;
-            movieToUpdate.Genre = updatedMovie.Genre;
-            movieToUpdate.Director = updatedMovie.Director;
-
-            await _context.SaveChangesAsync();
-            return Ok("Sikeresen frissítve: " + movieToUpdate.Title);
+            return NotFound("A film nem található.");
         }
 
-        [HttpDelete("{id}")]
-        
-        public async Task<IActionResult> DeleteMovie(int id)
+        _context.Movies.Remove(movie);
+        await _context.SaveChangesAsync();
+
+        return Ok("Sikeresen törölve: " + movie.Title);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<Movie>>> SearchMovies([FromQuery] string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
         {
-            var movie = await _context.Movies.FindAsync(id);
-
-            if (movie == null)
-            {
-                return NotFound("A film nem található.");
-            }
-
-            _context.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
-
-            return Ok("Sikeresen törölve: " + movie.Title);
+            return BadRequest("A keresési kifejezés nem lehet üres.");
         }
 
+        var movies = await _context.Movies
+            .Where(m => m.Title.Contains(query, StringComparison.OrdinalIgnoreCase))
+            .ToListAsync();
 
-        [HttpGet("{id}/kep")]
-        
-        public async Task<IActionResult> GetMoviePoster(int id)
+        if (!movies.Any())
         {
-            var movie =  await _context.Movies.FindAsync(id);
-
-            if(movie == null)
-            {
-                return NotFound();
-            }
-
-            if (movie.Poster == null)
-            {
-                return NotFound();
-
-            }
-
-            var fileName = $"{movie.Title}.jpg";
-
-
-            return File(movie.Poster, "image/jpg", fileName);
+            return NotFound("Nincs találat a megadott kifejezésre.");
         }
 
-        [HttpPut("{id}/kep")]
-        
-        public async  Task<IActionResult> PutMoviePoster(int id, [FromForm] MoviePosterUpdateModel poster)
+        return Ok(movies);
+    }
+
+    [HttpGet("{id}/kep")]
+    public async Task<IActionResult> GetMoviePoster(int id)
+    {
+        var movie = await _context.Movies.FindAsync(id);
+
+        if (movie == null)
         {
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            using (var memoryStream = new MemoryStream())
-            {
-                await poster.file.CopyToAsync(memoryStream);
-                movie.Poster = memoryStream.ToArray();
-            }
-
-            await _context.SaveChangesAsync();
-            return Ok("Poster sucesfully updated!");
-            
+            return NotFound();
         }
 
-        public class MoviePosterUpdateModel
+        if (movie.Poster == null)
         {
-            public required IFormFile file { get; set; }
+            return NotFound();
         }
 
-        [HttpDelete("{id}/kep")]
-        
-        public async Task<IActionResult> DeleteMoviePoster(int id)
-        {
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
+        var fileName = $"{movie.Title}.jpg";
+        return File(movie.Poster, "image/jpg", fileName);
+    }
 
-            movie.Poster = null;
-            
-            await _context.SaveChangesAsync();
-            return NoContent();
+    [HttpPut("{id}/kep")]
+    public async Task<IActionResult> PutMoviePoster(int id, [FromForm] MoviePosterUpdateModel poster)
+    {
+        var movie = await _context.Movies.FindAsync(id);
+        if (movie == null)
+        {
+            return NotFound();
         }
 
+        using (var memoryStream = new MemoryStream())
+        {
+            await poster.file.CopyToAsync(memoryStream);
+            movie.Poster = memoryStream.ToArray();
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok("Poster sucesfully updated!");
+    }
+
+    public class MoviePosterUpdateModel
+    {
+        public required IFormFile file { get; set; }
+    }
+
+    [HttpDelete("{id}/kep")]
+    public async Task<IActionResult> DeleteMoviePoster(int id)
+    {
+        var movie = await _context.Movies.FindAsync(id);
+        if (movie == null)
+        {
+            return NotFound();
+        }
+
+        movie.Poster = null;
+
+        await _context.SaveChangesAsync();
+        return NoContent();
     }
 }

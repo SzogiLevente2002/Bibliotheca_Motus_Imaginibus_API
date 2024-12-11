@@ -30,6 +30,8 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
+
 
         public async Task<ActionResult<Watchlist>> GetById(int id)
         {
@@ -44,6 +46,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostWatchlist(WatchlistDTO watchlistDto)
         {
             var user = await _context.Users.FindAsync(watchlistDto.UserId);
@@ -73,6 +76,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateWatchlist(int id, WatchlistDTO watchlistDto)
         {
             var watchlist = await _context.Watchlists.FindAsync(id);
@@ -97,6 +101,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
 
         public async Task<IActionResult> DeleteWatchlists(int id)
         {
