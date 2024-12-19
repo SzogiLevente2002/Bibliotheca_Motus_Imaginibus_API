@@ -21,7 +21,7 @@ namespace Bibliotheca_Motus_Imaginibus_API.Controllers
 
         // GET: api/Ratings
         [HttpGet]
-        
+
         public async Task<ActionResult<IEnumerable<Ratings>>> GetAllRatings()
         {
             return await _context.Ratings.ToListAsync();

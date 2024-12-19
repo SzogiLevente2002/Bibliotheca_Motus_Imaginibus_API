@@ -21,6 +21,40 @@ public class AccountController(
     IConfiguration config) : ControllerBase
 {
 
+    [HttpGet("me")]
+    [Authorize] // Csak bejelentkezett felhasználók érhetik el
+    public async Task<IActionResult> GetLoggedInUserData()
+    {
+        // Az aktuális felhasználó azonosítása a token alapján
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized("Nem található azonosított felhasználó.");
+        }
+
+        // Felhasználó lekérése az adatbázisból
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return NotFound("A felhasználó nem található.");
+        }
+
+        // A felhasználó összes adatának visszaadása
+        var response = new
+        {
+            user.Id,
+            user.FirstName,
+            user.LastName,
+            user.Email,
+            user.UserName,
+            Roles = await userManager.GetRolesAsync(user) // Felhasználó szerepei
+        };
+
+        return Ok(response);
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDTO register)
     {

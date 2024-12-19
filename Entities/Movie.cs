@@ -1,22 +1,32 @@
-﻿using System.Text.Json.Serialization;
+﻿using Bibliotheca_Motus_Imaginibus_API.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Bibliotheca_Motus_Imaginibus_API.Entities
+public class Movie
 {
-    public class Movie
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Genre { get; set; }
+    public string Director { get; set; }
+    public string Description { get; set; }
 
-        public string Director { get; set; }
+    public string Actor1 { get; set; }
 
-        public DateTime ReleasedDate { get; set; }
-        public string Genre { get; set; }
-        public int Length { get; set; }
+    public string Actor2 { get; set; }
 
-        [JsonIgnore]
-        public byte[]? Poster { get; set; }
+    public string Actor3 { get; set; }
+    public DateTime ReleasedDate { get; set; }
+    public DateTime AddedAt { get; set; }
+    public int Length { get; set; }
 
-        [JsonIgnore]
-        public ICollection<Ratings>? Ratings { get; set; }
-    }
+    [JsonIgnore]
+    // Navigational property for Ratings
+    public ICollection<Ratings> Ratings { get; set; } = new List<Ratings>();
+
+    [JsonIgnore]
+    // Poster as byte array (binary data storage)
+    public byte[]? Poster { get; set; } // Poster stored as a byte array
+
+
 }

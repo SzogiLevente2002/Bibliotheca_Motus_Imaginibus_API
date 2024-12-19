@@ -67,6 +67,8 @@ public class MovieController : ControllerBase
         movieToUpdate.Length = updatedMovie.Length;
         movieToUpdate.Genre = updatedMovie.Genre;
         movieToUpdate.Director = updatedMovie.Director;
+        movieToUpdate.Description = updatedMovie.Description;
+        movieToUpdate.AddedAt = updatedMovie.AddedAt;
 
         await _context.SaveChangesAsync();
         return Ok("Sikeresen frissítve: " + movieToUpdate.Title);
