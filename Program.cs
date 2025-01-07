@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MovieContext>(options =>
 {
-    options.UseMySQL("server=localhost;database=Bibliotheca_Motus_Imaginibus;user=root;password=");
+    options.UseMySQL("server=db12289.public.databaseasp.net;database=db12289;user=db12289;password=bibliotheca;");
 });
 
 builder.Services.Configure<PasswordHasherOptions>(options =>
@@ -107,11 +107,8 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseCors("CorsPolicy");
 
