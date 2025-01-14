@@ -44,7 +44,7 @@ public class MovieController : ControllerBase
         _context.Movies.Add(movie);
         await _context.SaveChangesAsync();
 
-        return Ok("Sikeresen létrehozva: " + movie.Title);
+        return Ok(movie.Id);
     }
 
     [HttpPut("{id}")]
