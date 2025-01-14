@@ -21,6 +21,8 @@ public class AccountController(
     IConfiguration config) : ControllerBase
 {
 
+
+
     [HttpGet("me")]
     [Authorize] // Csak bejelentkezett felhasználók érhetik el
     public async Task<IActionResult> GetLoggedInUserData()
@@ -54,6 +56,22 @@ public class AccountController(
 
         return Ok(response);
     }
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        // Összes felhasználó lekérdezése
+        var users = userManager.Users
+                               .Select(user => new
+                               {
+                                   user.Id,
+                                   user.UserName
+                               })
+                               .ToList();
+
+        return Ok(users);
+    }
+
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDTO register)
@@ -235,6 +253,31 @@ public class AccountController(
 
         return Ok("Jelszó sikeresen módosítva.");
     }
+
+    [HttpDelete("delete-profile")]
+    [Authorize] // Csak bejelentkezett felhasználók számára elérhető
+    public async Task<IActionResult> DeleteProfile()
+    {
+        // Az aktuális felhasználó azonosítása
+        var user = await userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return NotFound("Felhasználó nem található.");
+        }
+
+        // Felhasználó törlése
+        var result = await userManager.DeleteAsync(user);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest("A profil törlése sikertelen: " +
+                string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
+        return Ok("Profil sikeresen törölve.");
+    }
+
 
 
     private string GenerateToken(string id, string name, string email, IList<string> roles)
