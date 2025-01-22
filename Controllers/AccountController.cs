@@ -1,4 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mail;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using Bibliotheca_Motus_Imaginibus_API.DTOs;
@@ -56,6 +58,82 @@ public class AccountController(
 
         return Ok(response);
     }
+
+    [HttpPost("forget-password")]
+    public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordDTO forgetPasswordDto)
+    {
+        // Ellenőrizd, hogy az e-mail mező meg van-e adva
+        if (string.IsNullOrEmpty(forgetPasswordDto.Email))
+        {
+            return BadRequest("Az e-mail mező nem lehet üres.");
+        }
+
+        // Felhasználó keresése az e-mail alapján
+        var user = await userManager.FindByEmailAsync(forgetPasswordDto.Email);
+
+        if (user == null)
+        {
+            return NotFound("Nincs ilyen e-mailhez tartozó felhasználó.");
+        }
+
+        // Random jelszó generálása
+        var newPassword = GenerateRandomPassword(12);
+
+        // Felhasználó jelszavának visszaállítása
+        var resetToken = await userManager.GeneratePasswordResetTokenAsync(user);
+        var result = await userManager.ResetPasswordAsync(user, resetToken, newPassword);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest("A jelszó visszaállítása sikertelen: " +
+                string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
+        // E-mail küldése az új jelszóval
+        try
+        {
+            await SendResetPasswordEmail(user.Email, newPassword);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Az e-mail küldése sikertelen: " + ex.Message);
+        }
+
+        return Ok("Az új jelszót elküldtük az e-mail címére.");
+    }
+
+    // Random jelszó generálása
+    private string GenerateRandomPassword(int length)
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        var random = new Random();
+        return new string(Enumerable.Repeat(chars, length)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+
+    // E-mail küldése
+    private async Task SendResetPasswordEmail(string email, string newPassword)
+    {
+        var smtpClient = new SmtpClient("smtp.gmail.com")
+        {
+            Port = 587,
+            Credentials = new NetworkCredential("bibliothecamotusimaginibus@gmail.com", "ayrp mghm nmey vjsq"),
+            EnableSsl = true,
+        };
+
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress("bibliothecamotusimaginibus@gmail.com"),
+            Subject = "Elfelejtett jelszó - Új jelszó",
+            Body = $"Kedves felhasználó,\n\nAz új jelszavad: {newPassword}\n\nKérjük, változtasd meg a jelszavad, miután beléptél.",
+            IsBodyHtml = false,
+        };
+
+        mailMessage.To.Add(email);
+
+        await smtpClient.SendMailAsync(mailMessage);
+    }
+
 
     [HttpGet("users")]
     public async Task<IActionResult> GetAllUsers()
