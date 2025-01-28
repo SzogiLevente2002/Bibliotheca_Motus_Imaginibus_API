@@ -1,5 +1,6 @@
 ﻿using Bibliotheca_Motus_Imaginibus_API.Context;
 using Bibliotheca_Motus_Imaginibus_API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles ="Admin")]
     public async Task<ActionResult<Movie>> PostMovies(Movie movie)
     {
         if (movie == null)
@@ -48,6 +50,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Movie>> UpdateMovie(int id, Movie updatedMovie)
     {
         if (updatedMovie == null)
@@ -75,6 +78,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteMovie(int id)
     {
         var movie = await _context.Movies.FindAsync(id);
@@ -130,6 +134,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPut("{id}/kep")]
+    [Authorize(Roles ="Admin")]
     public async Task<IActionResult> PutMoviePoster(int id, [FromForm] MoviePosterUpdateModel poster)
     {
         var movie = await _context.Movies.FindAsync(id);
@@ -154,6 +159,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpDelete("{id}/kep")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteMoviePoster(int id)
     {
         var movie = await _context.Movies.FindAsync(id);
